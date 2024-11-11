@@ -1,71 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createStore } from 'redux';
-
-const initialState = {value: 0};
-
-const reducer = (state = initialState, action) => {
-    // if (action.type === 'INC') {
-    //     return state +1;
-    // }
-    // return 0;
-    switch (action.type) {
-        case 'INC':
-            // return state + 1;
-            return {
-                ...state,
-                value: state.value + 1
-            };
-        case 'DEC':
-            // return state - 1;
-            return {
-                ...state,
-                value: state.value - 1
-            };
-        case 'RND':
-            // return state * action.payload;
-            return {
-                ...state,
-                value: state.value * action.payload
-            };
-        default:
-            return state;
-    }
-}
+import { createStore, bindActionCreators } from 'redux';
+import reducer from './reducer';
+import * as actions from './actions';
 
 const store = createStore(reducer);
 
+const {dispatch, subscribe, getState} = store;
+
 const update = () => {
-    document.getElementById('counter').textContent = store.getState().value;
+    document.getElementById('counter').textContent = getState().value;
 }
 
-store.subscribe(update);
+subscribe(update);
+
+// const bindActionCreator = (creator, dispatch) => (...args) => {
+//     dispatch(creator(...args));
+// }
+
+const {inc, dec, rnd} = bindActionCreators( actions, dispatch);
+// const {incDispatch, decDispatch, rndDispatch} = bindActionCreators( {
+//     incDispatch: inc,
+//     decDispatch: dec,
+//     rndDispatch: rnd
+// }, dispatch);
+// const decDispatch = bindActionCreators(dec, dispatch);
+// const rndDispatch = bindActionCreators(rnd, dispatch);
+
+// const incDispatch = () => dispatch(inc());
+// const decDispatch = () => dispatch(dec());
+// const rndDispatch = (value) => dispatch(rnd(value));
 
 // const inc = () => {
 //     return {
 //         type: 'INC'
 //     }
 // }
+// store.subscribe(() => {
+//     console.log(getState()); 
+// })
 
-const inc = () => ({type: 'INC'});
-const dec = () => ({type: 'DEC'});
-const rnd = (value) => ({type: 'RND', payload: value});
+document.getElementById('inc').addEventListener('click', inc);
 
-store.subscribe(() => {
-    console.log(store.getState());
-})
-
-document.getElementById('inc').addEventListener('click', () => {
-    store.dispatch(inc());
-});
-
-document.getElementById('dec').addEventListener('click', () => {
-    store.dispatch(dec());
-});
+document.getElementById('dec').addEventListener('click', dec);
 
 document.getElementById('rnd').addEventListener('click', () => {
     const value = Math.floor(Math.random() * 10)
-    store.dispatch(rnd(value));
+    rnd(value);
 });
 
 // document.getElementById('inc').addEventListener('click', () => {
