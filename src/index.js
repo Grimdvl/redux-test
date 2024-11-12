@@ -1,24 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createStore, bindActionCreators } from 'redux';
+import { createStore,
+    // bindActionCreators
+} from 'redux';
 import reducer from './reducer';
-import * as actions from './actions';
+// import * as actions from './actions';
+import { Provider } from 'react-redux';
+
+import App from './components/App';
 
 const store = createStore(reducer);
 
-const {dispatch, subscribe, getState} = store;
+// const {dispatch, subscribe, getState} = store;
+// const {inc, dec, rnd} = bindActionCreators( actions, dispatch);
+// const update = () => {
+    // document.getElementById('counter').textContent = getState().value;
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+        <React.StrictMode>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+            {/* <Counter
+                counter={getState().value}
+                inc={inc}
+                dec={dec}
+                rnd={() => {
+                    const value = Math.floor(Math.random() * 10)
+                    rnd(value);
+                }}
+            /> */}
+        </React.StrictMode>
+    );
+// }
 
-const update = () => {
-    document.getElementById('counter').textContent = getState().value;
-}
-
-subscribe(update);
+// update();
+// subscribe(update);
 
 // const bindActionCreator = (creator, dispatch) => (...args) => {
 //     dispatch(creator(...args));
 // }
-
-const {inc, dec, rnd} = bindActionCreators( actions, dispatch);
 // const {incDispatch, decDispatch, rndDispatch} = bindActionCreators( {
 //     incDispatch: inc,
 //     decDispatch: dec,
@@ -40,14 +61,14 @@ const {inc, dec, rnd} = bindActionCreators( actions, dispatch);
 //     console.log(getState()); 
 // })
 
-document.getElementById('inc').addEventListener('click', inc);
+// document.getElementById('inc').addEventListener('click', inc);
 
-document.getElementById('dec').addEventListener('click', dec);
+// document.getElementById('dec').addEventListener('click', dec);
 
-document.getElementById('rnd').addEventListener('click', () => {
-    const value = Math.floor(Math.random() * 10)
-    rnd(value);
-});
+// document.getElementById('rnd').addEventListener('click', () => {
+//     const value = Math.floor(Math.random() * 10)
+//     rnd(value);
+// });
 
 // document.getElementById('inc').addEventListener('click', () => {
 //     store.dispatch({type: 'INC'});
@@ -62,8 +83,8 @@ document.getElementById('rnd').addEventListener('click', () => {
 //     store.dispatch({type: 'RND', payload: value});
 // });
 
-store.dispatch({type: 'INC'});
-store.dispatch({type: 'INC'});
+// store.dispatch({type: 'INC'});
+// store.dispatch({type: 'INC'});
 
 // console.log(store.getState());
 
@@ -72,11 +93,17 @@ store.dispatch({type: 'INC'});
 // state = reducer(state, {type: 'INC'})
 // console.log(state);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <React.StrictMode>
-        <>
-        
-        </>
-    </React.StrictMode>
-);
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//     <React.StrictMode>
+//         <Counter
+//             counter={getState().value}
+//             inc={inc}
+//             dec={dec}
+//             rnd={() => {
+//                 const value = Math.floor(Math.random() * 10)
+//                 rnd(value);
+//             }}
+//         />
+//     </React.StrictMode>
+// );
